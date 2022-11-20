@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { IUser } from "../../api/interface/interface";
+import { Password } from "../../utils/password";
 import { IUserDoc, IUserModel } from "../interface/interface";
 
 const userSchema = new mongoose.Schema({
@@ -24,6 +25,14 @@ const userSchema = new mongoose.Schema({
         }
     }
 });
+
+userSchema.pre('save', async function(done) {
+    if(this.isModified('password')) {
+        const hash = await Password.toHash(this.get('password'));
+        this.set('password', hash);
+    }
+    done();
+})
 
 userSchema.statics.build = (attrs: IUser) => {
     return new User(attrs);

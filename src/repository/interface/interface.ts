@@ -2,11 +2,11 @@ import mongoose from 'mongoose';
 import { ITodo, IUser } from '../../api/interface/interface';
 
 export interface IUserModel extends mongoose.Model<IUserDoc> {
-    buld(attrs: IUser): IUserDoc;
+    build(attrs: IUser): IUserDoc;
 }
 
 export interface IUserDoc extends mongoose.Document {
-    username: string;
+    name: string;
     email: string;
     password: string;
 }

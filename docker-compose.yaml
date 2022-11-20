@@ -8,11 +8,9 @@ services:
       target: development
     command: npm start
     env_file:
-      - /.env
+      - .env
     depends_on:
       - mongodb-primary
-      - mongodb-secondary
-      - mongodb-arbiter
     volumes:
       - .:/app
       - /node_modules
@@ -53,7 +51,6 @@ services:
       - MONGODB_INITIAL_PRIMARY_HOST=mongodb-primary
       - MONGODB_INITIAL_PRIMARY_ROOT_PASSWORD=password123
       - MONGODB_REPLICA_SET_KEY=replicasetkey123
-
 volumes:
   mongodb_master_data:
     driver: local
