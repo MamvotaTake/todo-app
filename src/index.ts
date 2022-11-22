@@ -9,18 +9,18 @@ const start = async () => {
         throw new Error('JWT_KEY must be defined!')
     }
 
-    if(!process.env.MONGO_URL) {
-        throw new Error('MONGO_URL must be defined')
-    }
+    // if(!process.env.MONGO_URL) {
+    //     throw new Error('MONGO_URL must be defined')
+    // }
 
     try {
-        await mongoose.connect(process.env.MONGODB_URL as string);
+        await mongoose.connect(process.env.DATABASE_LOCAL as string);
         log.info('Db Connected Successfully');
     } catch (err: any) {
         log.error(err);
     }
 
-    app.listen(3000, ()=>{
+    app.listen(4000, ()=>{
         log.info("listening on port 3000");
     })
 }

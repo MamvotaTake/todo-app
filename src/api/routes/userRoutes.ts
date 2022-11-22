@@ -4,7 +4,6 @@ const router = express.Router();
 
 router
 .route('/')
-.post(userService.createUser)
 .get(userService.getAllUsers);
 
 router

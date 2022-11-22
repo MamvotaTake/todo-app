@@ -1,20 +1,12 @@
-import bcrypt from "bcrypt";
+import bcrypt from 'bcryptjs';
 
 export class Password {
     static async toHash(password: string) {
-        const salt = bcrypt.genSaltSync(10)
-
-        const hash = await bcrypt.hashSync(password, salt);
-
-        return `${hash}.${salt}`;
+        return await bcrypt.hash(password, 12)
     }
 
-    static async compare(storedPassword: string, suppliedPassword: string) {
-        const [hashedPassword, salt] = storedPassword.split('.')
-
-        const hash = await bcrypt.hashSync(suppliedPassword, salt)
-
-        return hash === hashedPassword;
+    static correctPassword = async function(candidatePassword: string, userPassword: string) {
+        return await bcrypt.compare(candidatePassword, userPassword)
     }
 
 }

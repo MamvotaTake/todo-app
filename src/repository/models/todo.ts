@@ -4,21 +4,26 @@ import { ITodoDoc, ITodoModel } from '../interface/interface';
 const todoSchema = new mongoose.Schema({ 
 
     title: {
-        type: 'string',
+        type: String,
         required: true
     },
     description: {
-        type: 'string',
+        type: String,
         required: true
     },
     isCompleted: {
-        type: 'boolean',
+        type: Boolean,
         default: false,
     },
     userId: {
-        type: 'string',
+        type: String,
         require: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
+
 }, { 
     toJSON: {
         transform(doc, ret) {
