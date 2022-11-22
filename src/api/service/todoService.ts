@@ -1,11 +1,10 @@
 import { Request, Response } from 'express'
 import {NotFoundError} from '@takesure/common';
 import { Todo } from '../../repository/models/todo'
+import todoRepository from '../../repository/todoRepository'
 
 export const createTodo = async (req: Request, res: Response) => {
     const {title, description, isCompleted} = req.body;
-
-    // console.log(req.currentUser!.id)
 
     const todo = Todo.build({
         title,
@@ -33,7 +32,7 @@ export const getAllTodo = async (req: Request, res: Response) => {
     let queryStr = JSON.stringify(queryObj);
     queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
 
-    let query =  Todo.find(JSON.parse(queryStr));
+    let query =  todoRepository.getList(JSON.parse(queryStr));
 
     //Sorting
     if(req.query.sort){
@@ -63,23 +62,14 @@ export const getAllTodo = async (req: Request, res: Response) => {
 
 
 export const getTodo = async (req: Request, res: Response) => {
-    const todo = await Todo.findById(req.params.id)
-
-    if(!todo){
-        throw new NotFoundError();
-    }
+    const todo = await todoRepository.getById(req.params.id);
 
     res.status(200).send(todo);
 }
 
 export const updateTodo = async (req: Request, res: Response) => {
-    const todo = await Todo.findByIdAndUpdate(req.params.id, req.body, {
-        new: true
-    });
-
-    if(!todo) {
-        throw new NotFoundError();
-    }
+    const userId = req.params.id;
+    const todo = await todoRepository.updateById(userId, req.body);
 
     res.status(200).json({
         status:'success',
@@ -91,14 +81,11 @@ export const updateTodo = async (req: Request, res: Response) => {
 }
 
 export const deleteTodo = async (req: Request, res: Response) => {
-    const todo = await Todo.findByIdAndDelete(req.params.id);
+    const todo = await todoRepository.deleteById(req.params.id);
 
-    if(!todo){
-        throw new NotFoundError();
-    }
     res.status(204).json({
         status:'success',
-        data: null
+        data: todo
     })
 }
 

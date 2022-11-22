@@ -5,14 +5,26 @@ import { currentUser } from '../middleware/current-user';
 const router = express.Router();
 
 router
-.route('/')
-.post(currentUser,requireAuth, todoService.createTodo)
-.get(todoService.getAllTodo)
+    .route('/')
+    .post(currentUser, requireAuth, todoService.createTodo)
+    .get(todoService.getAllTodo)
 
 router
-.route('/:id')
-.get(todoService.getTodo)
-.patch(todoService.updateTodo)
-.delete(todoService.deleteTodo)
+    .route('/:id')
+    .get(
+        currentUser,
+        requireAuth,
+        todoService.getTodo
+    )
+    .patch(
+        currentUser,
+        requireAuth,
+        todoService.updateTodo
+    )
+    .delete(
+        currentUser,
+        requireAuth,
+        todoService.deleteTodo
+    )
 
 export default router;

@@ -1,13 +1,14 @@
 import express, { Request, Response } from 'express';
-import {NotFoundError} from '@takesure/common';
+import { NotFoundError } from '@takesure/common';
 import { User } from '../../repository/models/user';
+import userRepository from '../../repository/userRepository';
 
 
-export const getAllUsers = async (req: Request, res: Response) =>{
-    const users = await User.find({})
+export const getAllUsers = async (req: Request, res: Response) => {
+    const users = await userRepository.getList({})
 
     res.status(200).json({
-        status:'success',
+        status: 'success',
         results: users.length,
         data: {
             users: users
@@ -19,25 +20,21 @@ export const getAllUsers = async (req: Request, res: Response) =>{
 }
 
 export const getUser = async (req: Request, res: Response) => {
-    const user = await User.findById(req.params.id)
+    const user = await userRepository.getById(req.params.id)
 
-    if(!user) {
-        throw new NotFoundError();
-    }
+    res.status(200).json({
+        status: 'success',
+        data: {
+            user
+        }
 
-    res.status(200).send(user);
+    })
 
 
 }
 
-export const updateUser = async (req: Request, res: Response) =>{
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-        new: true
-    })
-
-    if(!user){
-        throw new NotFoundError();
-    }
+export const updateUser = async (req: Request, res: Response) => {
+    const user = await userRepository.updateById(req.params.id, req.body)
 
     res.status(200).json({
         status: 'success',
@@ -47,12 +44,8 @@ export const updateUser = async (req: Request, res: Response) =>{
     })
 }
 
-export const deleteUser = async (req: Request, res: Response) =>{
-    const user = await User.findByIdAndDelete(req.params.id);
-
-    if(!user) {
-        throw new NotFoundError();
-    }
+export const deleteUser = async (req: Request, res: Response) => {
+    const user = await userRepository.deleteById(req.params.id);
 
     res.status(204).json({
         status: 'success',
