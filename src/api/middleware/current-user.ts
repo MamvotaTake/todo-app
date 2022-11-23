@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
 import jwt from 'jsonwebtoken';
 
+/** Description - payload for current user
+ * @params{id} string
+ * @params{email} string
+*/
 interface UserPayload {
     id: string;
     email: string;
@@ -14,6 +18,7 @@ declare global {
     }
 }
 
+/** Description - verify the current signed in user with JWT*/
 export const currentUser = (
     req: Request,
     res: Response,

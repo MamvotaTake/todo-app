@@ -3,7 +3,14 @@ import { NotFoundError } from '@takesure/common';
 import { User } from '../../repository/models/user';
 import userRepository from '../../repository/userRepository';
 
+/** Description - User must be authenticated inorder to access todo endpoints*/
 
+
+/**
+ * Description - get all users
+ * @param {Request} req
+ * @param {Response} res
+ */
 export const getAllUsers = async (req: Request, res: Response) => {
     const users = await userRepository.getList({})
 
@@ -19,6 +26,11 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 }
 
+/**
+ * Description - get user by id
+ * @param {Request} req
+ * @param {Response} res
+ */
 export const getUser = async (req: Request, res: Response) => {
     const user = await userRepository.getById(req.params.id)
 
@@ -33,6 +45,11 @@ export const getUser = async (req: Request, res: Response) => {
 
 }
 
+/**
+ * Description -update user by id
+ * @param {Request} req
+ * @param {Response} res
+ */
 export const updateUser = async (req: Request, res: Response) => {
     const user = await userRepository.updateById(req.params.id, req.body)
 
@@ -44,6 +61,11 @@ export const updateUser = async (req: Request, res: Response) => {
     })
 }
 
+/**
+ * Description - delete user by id
+ * @param {Request} req
+ * @param {Response} res
+ */
 export const deleteUser = async (req: Request, res: Response) => {
     const user = await userRepository.deleteById(req.params.id);
 

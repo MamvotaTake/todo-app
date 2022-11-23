@@ -1,5 +1,6 @@
 import 'express-async-errors'
 import cookieSession from "cookie-session";
+import cors from 'cors';
 import express, { Request, Response, NextFunction} from "express";
 require('dotenv').config();
 import morgan from "morgan";
@@ -11,10 +12,11 @@ const app = express();
 //App middlewares
 app.use(morgan('dev'))
 app.set('trust proxy', true);
+app.use(cors())
 app.use(express.json());
 app.use(cookieSession({
     signed: false,
-    // secure: true,
+    secure: false,
 }))
 
 routes(app)

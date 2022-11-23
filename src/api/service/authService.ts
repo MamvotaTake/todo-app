@@ -4,11 +4,21 @@ import jwt from 'jsonwebtoken';
 import { User } from '../../repository/models/user';
 import { Password } from '../../utils/password';
 
+/**
+ * Description - Generating user token function
+ * @param {string} id 
+ * @param {string} email
+ */
 const signToken = (id: string, email: string) => jwt.sign({ id, email }, process.env.JWT_KEY!, {
     expiresIn: process.env.JWT_EXPIRES_IN
 })
 
 
+/**
+ * Description - signup the user, and generate the JWT token
+ * @param {Request} req
+ * @param {Response} res
+ */
 export const signup = async (req: Request, res: Response) => {
     const { email } = req.body;
 
@@ -22,10 +32,10 @@ export const signup = async (req: Request, res: Response) => {
 
     await user.save();
 
-    // Generate JWT
+    /** Descripton Generate JWT */
     const token = signToken(user.id, user.email)
 
-    // Store it on session Object
+    /** Description - Store it on session Object */
     req.session = {
         jwt: token,
     }
@@ -36,6 +46,12 @@ export const signup = async (req: Request, res: Response) => {
 }
 
 
+/**
+ * Description - Signin the registered user
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ */
 export const signin = async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
 
@@ -53,10 +69,10 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
         throw new BadRequestError('Invalid credentials')
     }
 
-    // Generate JWT
+    /** Descripton Generate JWT */
     const token = signToken(existingUser.id, existingUser.email)
 
-    // Store it on session Object
+    /** Description - Store it on session Object */
     req.session = {
         jwt: token
     }
@@ -67,12 +83,22 @@ export const signin = async (req: Request, res: Response, next: NextFunction) =>
     })
 }
 
+/**
+ * Description - signout the current user
+ * @param {Request} req
+ * @param {Response} res
+ */
 export const signout = (req: Request, res: Response) => {
     req.session = null;
     res.status(204).json({ status: 'success' })
 }
 
 
+/**
+ * Description - Getting current user
+ * @param {Request} req
+ * @param {Response} res
+ */
 export const currentUser = (req: Request, res: Response) => {
     res.status(200).json({ 
         status: 'success', 

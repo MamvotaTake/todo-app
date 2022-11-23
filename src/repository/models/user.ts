@@ -32,6 +32,12 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+/**
+ * Description
+ * @param {any} 'save'
+ * @param {any} asyncfunction(next)
+ * 
+ */
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
 
@@ -40,6 +46,11 @@ userSchema.pre('save', async function (next) {
     next();
 })
 
+/**
+ * Creating user passed attributes
+ * @param {IUser} attrs
+ * @returns {User}
+ */
 userSchema.statics.build = (attrs: IUser) => {
     return new User(attrs);
 }

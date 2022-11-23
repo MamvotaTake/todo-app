@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { ITodo } from '../../api/interface/interface';
 import { ITodoDoc, ITodoModel } from '../interface/interface';
 
 const todoSchema = new mongoose.Schema({ 
@@ -34,7 +35,13 @@ const todoSchema = new mongoose.Schema({
     }
 });
 
-todoSchema.statics.build = (attrs) => {
+
+/**
+ * Creating todo passed attributes
+ * @param {ITodo} attrs
+ * @returns {Todo atrributes}
+ */
+todoSchema.statics.build = (attrs: ITodo) => {
     return new Todo(attrs);
 }
 

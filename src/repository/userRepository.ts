@@ -2,13 +2,24 @@ import { NotFoundError } from "@takesure/common";
 import BaseRepository from "./baseRepository";
 import { User } from "./models/user";
 
-class UserRepository extends BaseRepository{
+class UserRepository extends BaseRepository {
     model: any
 
+/**
+ * Description - getting all objects
+ * @param {any} data
+ * @returns {object} - list of all objects
+ */
     getList(data: any) {
         return this.model.find()
     }
 
+/**
+ * Description - get object by id
+ * if the id is invalid, then catch will return 400 error
+ * @param {string} id
+ * @returns {object} - single object by id
+ */
     async getById(id: string) {
 
         try {
@@ -23,7 +34,13 @@ class UserRepository extends BaseRepository{
         }
 
     }
-
+/**
+ * Description - update object by id
+ * if the id is invalid, then catch will return 400 error
+ * @param {string} id
+ * @param {any} data
+ * @returns {object} - object that was updated
+ */
     async updateById(id: string, data: any) {
 
         try {
@@ -40,6 +57,11 @@ class UserRepository extends BaseRepository{
 
     }
 
+/**
+ * Description - delete object by id
+ * @param {string} id
+ * @returns {null} 
+ */
     async deleteById(id: string) {
         const result = await this.model.findByIdAndDelete(id)
 
