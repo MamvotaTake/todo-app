@@ -9,7 +9,7 @@ import { NotFoundError } from '@takesure/common';
 
 const app = express();
 
-//App middlewares
+/**Description - App middlewares*/
 app.use(morgan('dev'))
 app.set('trust proxy', true);
 app.use(cors())
@@ -21,7 +21,7 @@ app.use(cookieSession({
 
 routes(app)
 
-//Error Handler Middleware
+/**Description - Error Handler Middleware*/
 app.all('*', async (req, res, next) => {
     next(new NotFoundError());
 });
